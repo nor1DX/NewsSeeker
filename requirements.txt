@@ -1,5 +1,5 @@
 Flask==2.3.3
 Flask_SQLAlchemy==3.1.1
 SQLAlchemy==2.0.29
-feedparser
-gunicorn
+feedparser==6.0.10
+gunicorn==21.2.0
