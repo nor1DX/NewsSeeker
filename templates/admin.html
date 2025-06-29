@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Управление новостями</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Заголовок</th>
+      <th>Источник</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in posts %}
+    <tr>
+      <td>{{ post.id }}</td>
+      <td>{{ post.title }}</td>
+      <td>{{ post.source }}</td>
+      <td>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <form method="get" action="{{ url_for('admin_edit', post_id=post.id) }}">
+            <button type="submit" class="secondary admin-button">Редактировать</button>
+          </form>
+          <form method="post" action="{{ url_for('admin_delete', post_id=post.id) }}">
+            <button type="submit" class="secondary admin-button">Удалить</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<form method="get" action="{{ url_for('admin_logout') }}">
+  <button type="submit" class="secondary admin-button" style="margin-top: 1rem;">Выйти</button>
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+# render.yaml
+services:
+  - type: web
+    name: news
+    plan: free
+    buildCommand: ""
+    startCommand: python main.py
+    runtime: python
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: your-secret-key-here
+      - key: ADMIN_PASSWORD
+        value: admin

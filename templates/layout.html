@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Агрегатор новостей</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        .source-label{font-weight:700;letter-spacing:.4px;color:var(--pico-primary);}
+        article{margin-bottom:2rem;padding:1rem;border:1px solid var(--pico-muted-border-color);border-radius:8px;}
+        .toggle{cursor:pointer;}
+        .admin-controls{margin-top:1rem;display:flex;gap:.5rem;align-items:center;}
+        .admin-button{font-size:.9rem;padding:.4rem .8rem;}
+        .admin-password-input{min-width:160px;}
+        form.inline-form{display:flex;align-items:stretch;gap:.5rem;height:100%;}
+        form.inline-form input,form.inline-form button{height:100%;margin:0;}
+        nav ul li form {margin: 0;padding: 0;height: 100%;display: flex;align-items: center;}
+    </style>
+</head>
+<body>
+<header class="container">
+    <nav>
+        <!-- Логотип-ссылка на главную -->
+        <ul>
+            <li>
+                <a href="{{ url_for('index') }}" class="contrast admin-button" style="padding:0.4rem 0.8rem;">
+                    <strong>Агрегатор новостей</strong>
+                </a>
+            </li>
+        </ul>
+
+        <ul>
+            <!-- Фильтр источников -->
+            <li>
+                <select id="sourceFilter">
+                    <option value="">Все источники</option>
+                    {% for s in sources %}
+                    <option value="{{ s }}" {% if s==current_source %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </li>
+
+            <!-- Админ или форма входа -->
+            {% if is_admin %}
+            <li>
+                <form method="get" action="{{ url_for('admin_panel') }}">
+                    <button type="submit" class="contrast admin-button">Панель администратора</button>
+                </form>
+            </li>
+            <li>
+                <form method="get" action="{{ url_for('admin_logout') }}">
+                    <button type="submit" class="secondary admin-button">Выйти</button>
+                </form>
+            </li>
+
+            {% else %}
+            <li>
+                <form method="post" action="{{ url_for('admin_login') }}" class="inline-form">
+                    <input type="password" name="password" placeholder="Пароль администратора"
+                           class="admin-password-input" required>
+                    <button type="submit" class="admin-button">Войти</button>
+                </form>
+            </li>
+            {% endif %}
+
+            <!-- Переключатель темы -->
+            <li>
+                <button id="themeToggle" class="secondary toggle admin-button">Сменить тему</button>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+
+    {% if request.args.get("login_failed") %}
+    <div style="margin-top: 1rem; padding: 1rem; border: 1px solid red; border-radius: 6px; color: red;">
+        Неверный пароль администратора. Попробуйте снова.
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+<script>const CURRENT_SOURCE="{{ current_source or '' }}";</script>
+</body>
+</html>

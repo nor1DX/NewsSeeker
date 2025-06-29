@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="newsList">
+    {% for post in posts %}
+    <article>
+        <header>
+            <h2>{{ post.title }}</h2>
+            <p class="source-label">{{ post.source|upper }}</p>
+        </header>
+
+        <p>{{ post.summary|safe }}</p>
+
+        <footer>
+            <a href="{{ post.link }}" target="_blank">Читать оригинал</a>
+
+            {% if is_admin %}
+            <div class="admin-controls">
+                <form method="get" action="{{ url_for('admin_edit', post_id=post.id) }}" class="inline-form">
+                    <button type="submit" class="secondary admin-button">Редактировать</button>
+                </form>
+                <form method="post" action="{{ url_for('admin_delete', post_id=post.id) }}" class="inline-form">
+                    <button type="submit" class="secondary admin-button">Удалить</button>
+                </form>
+            </div>
+            {% endif %}
+        </footer>
+
+    </article>
+    {% endfor %}
+</div>
+
+<button id="loadMore" class="outline" data-offset="{{ posts|length }}">
+    Показать ещё
+</button>
+{% endblock %}

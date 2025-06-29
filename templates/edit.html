@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Редактировать новость</h2>
+{% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+
+<form method="post">
+  <label>Заголовок
+    <input type="text" name="title" value="{{ post.title }}" required>
+  </label>
+  <label>Содержание (можно HTML)
+    <textarea name="summary" rows="5">{{ post.summary }}</textarea>
+  </label>
+  <label>Ссылка
+    <input type="url" name="link" value="{{ post.link }}" required>
+  </label>
+  <label>Источник
+    <input type="text" name="source" value="{{ post.source }}" required>
+  </label>
+  <button type="submit">Сохранить</button>
+  <a href="{{ url_for('admin_panel') }}" class="secondary">Отмена</a>
+</form>
+{% endblock %}
