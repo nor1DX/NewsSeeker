@@ -43,20 +43,17 @@
             <!-- Админ или форма входа -->
             {% if is_admin %}
             <li>
-                <form method="get" action="{{ url_for('admin_panel') }}">
+                <form method="get" action="{{ url_for('admin_panel') }} " class="inline-form">
                     <button type="submit" class="contrast admin-button">Панель администратора</button>
                 </form>
-            </li>
-            <li>
-                <form method="get" action="{{ url_for('admin_logout') }}">
+                <form method="get" action="{{ url_for('admin_logout') }}" class="inline-form">
                     <button type="submit" class="secondary admin-button">Выйти</button>
                 </form>
             </li>
-
             {% else %}
             <li>
                 <form method="post" action="{{ url_for('admin_login') }}" class="inline-form">
-                    <input type="password" name="password" placeholder="Пароль администратора"
+                    <input type="password" name="password" placeholder="Пароль"
                            class="admin-password-input" required>
                     <button type="submit" class="admin-button">Войти</button>
                 </form>
@@ -64,7 +61,7 @@
             {% endif %}
 
             <!-- Переключатель темы -->
-            <li>
+            <li class="form.inline-form">
                 <button id="themeToggle" class="secondary toggle admin-button">Сменить тему</button>
             </li>
         </ul>
