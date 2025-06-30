@@ -119,7 +119,7 @@ def admin_login():
         session['admin'] = True
         return redirect(url_for('index'))
     else:
-        session.pop('admin', None)  # Удалим флаг, если был установлен
+        session.pop('admin', None)
         return redirect(url_for('index', login_failed=1))
 
 
